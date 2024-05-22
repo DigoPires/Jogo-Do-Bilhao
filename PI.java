@@ -137,6 +137,7 @@ public class PI {
             }
         }
 
+        eliminarQuestao = false;
         quantPerg += 1;
     }
 
