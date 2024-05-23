@@ -174,12 +174,16 @@ public class PI {
         }
  
         JOptionPane.showMessageDialog(null, "Quantidade de Pontos: " + pontos + "/5");
+        resetarJogo();
+        menu();
+    }
+
+    public void resetarJogo() {
         quantPerg = 1;
         pontos = 0;
         pulosRestantes = 3;
         dicasRestantes = 2;
         eliminarDuasRestantes = 2;
-        menu();
     }
 
     public void facil(){
