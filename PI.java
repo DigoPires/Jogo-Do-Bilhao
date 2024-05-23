@@ -63,6 +63,8 @@ public class PI {
     int pulosRestantes = 3;
     int dicasRestantes = 2;
     int eliminarDuasRestantes = 2;
+
+    // Variavel para verificar quando o usuário utilizou o "Eliminar Duas"
     boolean eliminarQuestao = false;
 
     // Opções de resposta SIM e NÃO
