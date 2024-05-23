@@ -72,6 +72,7 @@ public class PI {
 
     // Método principal do jogo
     public void jogoDoBilhao(String pergunta, String resposta, String dica, String eliminarDuas) {
+
         String respostaUsuario;
 
         // Mensagens a serem exibidas dependendo se a opção de eliminar duas respostas está ativa
@@ -83,6 +84,16 @@ public class PI {
             respostaUsuario = JOptionPane.showInputDialog(null, mensagemNormal);
         } else {
             respostaUsuario = JOptionPane.showInputDialog(null, mensagemEliminarDuas);
+        }
+
+        if (respostaUsuario == null) {
+            int resp = JOptionPane.showOptionDialog(null, "Deseja voltar para o menu?", "Voltar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcoes_SIM_NAO, opcoes_SIM_NAO[0]);
+            if (resp == JOptionPane.YES_OPTION) {
+                menu();
+            }
+            else{
+                jogoDoBilhao(pergunta, resposta, dica, eliminarDuas);
+            }
         }
 
         // Se o usuário escolhe a opção de eliminar duas respostas
@@ -226,6 +237,7 @@ public class PI {
             } catch (NumberFormatException e) {
                 int resp = JOptionPane.showOptionDialog(null, "Deseja Sair?", "Sair", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcoes_SIM_NAO, opcoes_SIM_NAO[0]);
                 if (resp == JOptionPane.YES_OPTION) {
+                    JOptionPane.showMessageDialog(null, "Saindo...");
                     System.exit(0);
                 }
             }
