@@ -73,25 +73,25 @@ public class PI {
 
         String respostaUsuario;
 
+        String mensagemNormal = Integer.toString(quantPerg) + " - " + (pergunta + ("\n\n5 - Pular Pergunta (" + pulosRestantes + ")     6 - Dicas (" + dicasRestantes + ")     7 - Eliminar Duas (" + eliminarDuasRestantes + ")\n\n"));
+        String mensagemEliminarDuas = Integer.toString(quantPerg) + " - " + (eliminarDuas + ("\n\n5 - Pular Pergunta (" + pulosRestantes + ")     6 - Dicas (" + dicasRestantes + ")\n\n"));
+
         if (!eliminarQuestao) {
-            String mensagem = Integer.toString(quantPerg) + " - " + (pergunta + ("\n\n5 - Pular Pergunta (" + pulosRestantes + ")     6 - Dicas (" + dicasRestantes + ")     7 - Eliminar Duas (" + eliminarDuasRestantes + ")\n\n"));
-            respostaUsuario = JOptionPane.showInputDialog(null, mensagem);
+            respostaUsuario = JOptionPane.showInputDialog(null, mensagemNormal);
         }
-        else{
-            String mensagemEliminarDuas = Integer.toString(quantPerg) + " - " + (eliminarDuas + ("\n\n5 - Pular Pergunta (" + pulosRestantes + ")     6 - Dicas (" + dicasRestantes + ")\n\n"));        
+        else{        
             respostaUsuario = JOptionPane.showInputDialog(null, mensagemEliminarDuas);
         }
         
         if (respostaUsuario.equals("7")) {
             if(eliminarDuasRestantes > 0){
-                String mensagemEliminarDuas = Integer.toString(quantPerg) + " - " + (eliminarDuas + ("\n\n5 - Pular Pergunta (" + pulosRestantes + ")     6 - Dicas (" + dicasRestantes + ")\n\n"));
                 respostaUsuario = JOptionPane.showInputDialog(null, mensagemEliminarDuas);
                 eliminarQuestao = true;
                 eliminarDuasRestantes--;
             }
             else{
                 JOptionPane.showMessageDialog(null, "Sua opção de eliminar 2 acabou!");
-                jogoDoBilhao(pergunta, respostaUsuario, dica, eliminarDuas);
+                jogoDoBilhao(pergunta, resposta, dica, eliminarDuas);
             }
         }
 
@@ -99,18 +99,17 @@ public class PI {
             case "5" -> {
                 if (pulosRestantes <= 0) {
                     JOptionPane.showMessageDialog(null, "Seus Pulos acabaram!");
-                    jogoDoBilhao(pergunta, respostaUsuario, dica, eliminarDuas);
+                    jogoDoBilhao(pergunta, resposta, dica, eliminarDuas);
                 }
                 else{
                     int resp = JOptionPane.showOptionDialog(null, "Você deseja Pular a pergunta? \n\nPulos Restantes: " + pulosRestantes, "Pular", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcoes_SIM_NAO, opcoes_SIM_NAO[0]);
                     if (resp == JOptionPane.YES_OPTION) {
                         pulosRestantes--;
                         eliminarQuestao = false;
-                        facil();
                         return;
                     }
                     else{
-                        jogoDoBilhao(pergunta, respostaUsuario, dica, eliminarDuas);
+                        jogoDoBilhao(pergunta, resposta, dica, eliminarDuas);
                     }
                 }
             }
@@ -118,48 +117,31 @@ public class PI {
                 if (dicasRestantes > 0) {
                     JOptionPane.showMessageDialog(null, dica);
                     dicasRestantes--;
-                    jogoDoBilhao(pergunta, respostaUsuario, dica, eliminarDuas);
+                    jogoDoBilhao(pergunta, resposta, dica, eliminarDuas);
                 }
                 else{
                     JOptionPane.showMessageDialog(null, "Suas Dicas acabaram!");
-                    jogoDoBilhao(pergunta, respostaUsuario, dica, eliminarDuas);
+                    jogoDoBilhao(pergunta, resposta, dica, eliminarDuas);
                 }
             }
             default -> {
                 if (respostaUsuario.equalsIgnoreCase(resposta)) {
                     JOptionPane.showMessageDialog(null, "Resposta Correta");
                     pontos += 1;
+                    quantPerg += 1;
                 }
          
                 else {
                     JOptionPane.showMessageDialog(null, "Resposta Incorreta!");
+                    quantPerg += 1;
                 }
             }
         }
 
         eliminarQuestao = false;
-        quantPerg += 1;
     }
 
-    public void facil(){
-       
-        // Cria uma nova lista de perguntas
-        perguntas = new ArrayList<>();
- 
-        // Adicione aqui suas perguntas à lista
-        perguntas.add(new PerguntaClass("Qual animal representa o símbolo da paz? \n\na - Pomba. \nb - Gato \nc - Cobra \nd - Elefante", "a", "$$$$DICA1####", "Qual animal representa o símbolo da paz? \n\na - Pomba. \nb - Gato"));
-        perguntas.add(new PerguntaClass("Qual é o sobrenome mais comum no Brasil? \n\na - Silva \nb - Santos \nc - Souza \nd - Oliveira", "a", "$$$$DICA2####", "Qual é o sobrenome mais comum no Brasil? \n\na - Silva \nc - Souza")); 
-        perguntas.add(new PerguntaClass("Qual inventor brasileiro é conhecido com o “pai da aviação”? \n\na - Tom Jobim \nb - Paulo Coelho. \nc - Santos Dumont. \nd - Ary Barroso", "c", "$$$$DICA3####", "Qual inventor brasileiro é conhecido com o “pai da aviação”? \n\nb - Paulo Coelho. \nc - Santos Dumont."));
-        perguntas.add(new PerguntaClass("Qual cidade brasileira é conhecida como Terra da Garoa? \n\na - Rio de Janeiro. \nb - Salvador. \nc - Brasília. \nd - São Paulo.", "d", "$$$$DICA4####", "Qual cidade brasileira é conhecida como Terra da Garoa? \n\nc - Brasília. \nd - São Paulo."));
-        perguntas.add(new PerguntaClass("Quantos dias tem um ano bissexto? \n\na - 364 dias \nb - 365 dias \nc - 366 dias \nd - 600 dias", "c", "$$$$DICA5####", "Quantos dias tem um ano bissexto? \n\nb - 365 dias \nc - 366 dias"));
-        perguntas.add(new PerguntaClass("Quantos anos tem um século? \n\na - 10 \nb - 100 \nc - 110 \nd - 1000", "b", "$$$$DICA6####", "Quantos anos tem um século? \n\nb - 100 \nc - 110"));
-        perguntas.add(new PerguntaClass("Quais destas doenças são sexualmente transmissíveis? \n\na - Aids, tricomoníase e ebola \nb - Chikungunya, aids e herpes genital \nc - Gonorreia, clamídia e sífilis \nd - Botulismo, cistite e gonorreia", "c", "$$$$DICA7####", "Quais destas doenças são sexualmente transmissíveis? \n\nb - Chikungunya, aids e herpes genital \nc - Gonorreia, clamídia e sífilis"));
-        perguntas.add(new PerguntaClass("Quantas casas decimais tem o número pi? \n\na - Duas \nb - Centenas \nc - Infinitas \nd - Vinte", "c", "$$$$DICA7####", "Quantas casas decimais tem o número pi? \n\na - Duas \nc - Infinitas"));
-        perguntas.add(new PerguntaClass("Qual o número de jogadores em cada time numa partida de futebol? \n\na - 9 \nb - 11 \nc - 10 \nd - 12", "b", "$$$$DICA7####", "Qual o número de jogadores em cada time numa partida de futebol? \n\nb - 11 \nd - 12"));
-
-        // Cria uma nova lista de perguntas repetidas
-        repetidas = new ArrayList<>();
-
+    public void loopJogo(){
         while (quantPerg <= 5) {
  
             // Sorteia uma pergunta da lista
@@ -198,6 +180,28 @@ public class PI {
         dicasRestantes = 2;
         eliminarDuasRestantes = 2;
         menu();
+    }
+
+    public void facil(){
+       
+        // Cria uma nova lista de perguntas
+        perguntas = new ArrayList<>();
+ 
+        // Adicione aqui suas perguntas à lista
+        perguntas.add(new PerguntaClass("Qual animal representa o símbolo da paz? \n\na - Pomba. \nb - Gato \nc - Cobra \nd - Elefante", "a", "$$$$DICA1####", "Qual animal representa o símbolo da paz? \n\na - Pomba. \nb - Gato"));
+        perguntas.add(new PerguntaClass("Qual é o sobrenome mais comum no Brasil? \n\na - Silva \nb - Santos \nc - Souza \nd - Oliveira", "a", "$$$$DICA2####", "Qual é o sobrenome mais comum no Brasil? \n\na - Silva \nc - Souza")); 
+        perguntas.add(new PerguntaClass("Qual inventor brasileiro é conhecido com o “pai da aviação”? \n\na - Tom Jobim \nb - Paulo Coelho. \nc - Santos Dumont. \nd - Ary Barroso", "c", "$$$$DICA3####", "Qual inventor brasileiro é conhecido com o “pai da aviação”? \n\nb - Paulo Coelho. \nc - Santos Dumont."));
+        perguntas.add(new PerguntaClass("Qual cidade brasileira é conhecida como Terra da Garoa? \n\na - Rio de Janeiro. \nb - Salvador. \nc - Brasília. \nd - São Paulo.", "d", "$$$$DICA4####", "Qual cidade brasileira é conhecida como Terra da Garoa? \n\nc - Brasília. \nd - São Paulo."));
+        perguntas.add(new PerguntaClass("Quantos dias tem um ano bissexto? \n\na - 364 dias \nb - 365 dias \nc - 366 dias \nd - 600 dias", "c", "$$$$DICA5####", "Quantos dias tem um ano bissexto? \n\nb - 365 dias \nc - 366 dias"));
+        perguntas.add(new PerguntaClass("Quantos anos tem um século? \n\na - 10 \nb - 100 \nc - 110 \nd - 1000", "b", "$$$$DICA6####", "Quantos anos tem um século? \n\nb - 100 \nc - 110"));
+        perguntas.add(new PerguntaClass("Quais destas doenças são sexualmente transmissíveis? \n\na - Aids, tricomoníase e ebola \nb - Chikungunya, aids e herpes genital \nc - Gonorreia, clamídia e sífilis \nd - Botulismo, cistite e gonorreia", "c", "$$$$DICA7####", "Quais destas doenças são sexualmente transmissíveis? \n\nb - Chikungunya, aids e herpes genital \nc - Gonorreia, clamídia e sífilis"));
+        perguntas.add(new PerguntaClass("Quantas casas decimais tem o número pi? \n\na - Duas \nb - Centenas \nc - Infinitas \nd - Vinte", "c", "$$$$DICA7####", "Quantas casas decimais tem o número pi? \n\na - Duas \nc - Infinitas"));
+        perguntas.add(new PerguntaClass("Qual o número de jogadores em cada time numa partida de futebol? \n\na - 9 \nb - 11 \nc - 10 \nd - 12", "b", "$$$$DICA7####", "Qual o número de jogadores em cada time numa partida de futebol? \n\nb - 11 \nd - 12"));
+
+        // Cria uma nova lista de perguntas repetidas
+        repetidas = new ArrayList<>();
+
+        loopJogo();
     }  
      
  
@@ -227,9 +231,10 @@ public class PI {
                 }
             } 
             catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Entrada inválida! Por favor, escolha uma opção válida.", "Erro", JOptionPane.ERROR_MESSAGE);
-               
-                //Mensagem de erro se tentar sair de outra forma, somente apertanto no número 4
+                int resp = JOptionPane.showOptionDialog(null, "Deseja Sair?", "Sair", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcoes_SIM_NAO, opcoes_SIM_NAO[0]);
+                if (resp == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
             }
         }
     }
