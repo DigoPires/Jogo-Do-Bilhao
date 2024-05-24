@@ -63,6 +63,8 @@ public class PI {
     int pulosRestantes = 3;
     int dicasRestantes = 2;
     int eliminarDuasRestantes = 2;
+    double valorQuestao = 0;
+    double saldo = 0;
 
     // Variavel para verificar quando o usuário utilizou o "Eliminar Duas"
     boolean eliminarQuestao = false;
@@ -76,8 +78,8 @@ public class PI {
         String respostaUsuario;
 
         // Mensagens a serem exibidas dependendo se a opção de eliminar duas respostas está ativa
-        String mensagemNormal = quantPerg + " - " + (pergunta + "\n\n5 - Pular Pergunta (" + pulosRestantes + ")     6 - Dicas (" + dicasRestantes + ")     7 - Eliminar Duas (" + eliminarDuasRestantes + ")\n\n");
-        String mensagemEliminarDuas = quantPerg + " - " + (eliminarDuas + "\n\n5 - Pular Pergunta (" + pulosRestantes + ")     6 - Dicas (" + dicasRestantes + ")\n\n");
+        String mensagemNormal = "Pergunta Valendo:  R$"+ String.format("%,.2f", valorQuestao) + "\n\n" + quantPerg + " - " + (pergunta + "\n\n5 - Pular Pergunta (" + pulosRestantes + ")     6 - Dicas (" + dicasRestantes + ")     7 - Eliminar Duas (" + eliminarDuasRestantes + ") \n\nSaldo Atual:  R$" + String.format("%,.2f", saldo) + "\n\n");
+        String mensagemEliminarDuas = "Pergunta Valendo:  R$"+ String.format("%,.2f", valorQuestao) + "\n\n" + quantPerg + " - " + (eliminarDuas + "\n\n5 - Pular Pergunta (" + pulosRestantes + ")     6 - Dicas (" + dicasRestantes + ")\n\nSaldo Atual:  R$" + String.format("%,.2f", saldo) + "\n\n");
 
         // Exibe a pergunta ao usuário
         if (!eliminarQuestao) {
@@ -140,6 +142,7 @@ public class PI {
                     JOptionPane.showMessageDialog(null, "Resposta Correta");
                     pontos += 1;
                     quantPerg += 1;
+                    saldo += valorQuestao;
                 } else {
                     JOptionPane.showMessageDialog(null, "Resposta Incorreta!");
                     quantPerg += 1;
@@ -153,6 +156,8 @@ public class PI {
     // Método que controla o loop do jogo
     public void loopJogo() {
         while (quantPerg <= 5) {
+
+            valorQuestao += 1000;
             // Sorteia uma pergunta da lista
             PerguntaClass sortearPergunta = perguntas.get((int) (Math.random() * perguntas.size()));
 
