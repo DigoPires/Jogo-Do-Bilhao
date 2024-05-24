@@ -63,7 +63,7 @@ public class PI {
     int pulosRestantes = 3;
     int dicasRestantes = 2;
     int eliminarDuasRestantes = 2;
-    double valorQuestao = 0;
+    double valorQuestao = 1000;
     double saldo = 0;
 
     // Variavel para verificar quando o usuário utilizou o "Eliminar Duas"
@@ -150,6 +150,7 @@ public class PI {
             }
         }
 
+        valorQuestao += 1000;
         eliminarQuestao = false;
     }
 
@@ -157,7 +158,6 @@ public class PI {
     public void loopJogo() {
         while (quantPerg <= 5) {
 
-            valorQuestao += 1000;
             // Sorteia uma pergunta da lista
             PerguntaClass sortearPergunta = perguntas.get((int) (Math.random() * perguntas.size()));
 
@@ -242,7 +242,6 @@ public class PI {
             } catch (NumberFormatException e) {
                 int resp = JOptionPane.showOptionDialog(null, "Deseja Sair?", "Sair", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcoes_SIM_NAO, opcoes_SIM_NAO[0]);
                 if (resp == JOptionPane.YES_OPTION) {
-                    JOptionPane.showMessageDialog(null, "Saindo...");
                     System.exit(0);
                 }
             }
