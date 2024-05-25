@@ -78,8 +78,9 @@ public class PI {
         String respostaUsuario;
 
         // Mensagens a serem exibidas dependendo se a opção de eliminar duas respostas está ativa
-        String mensagemNormal = "Pergunta Valendo:  R$"+ String.format("%,.2f", valorQuestao) + "\n\n" + quantPerg + " - " + (pergunta + "\n\n5 - Pular Pergunta (" + pulosRestantes + ")     6 - Dicas (" + dicasRestantes + ")     7 - Eliminar Duas (" + eliminarDuasRestantes + ") \n\nSaldo Atual:  R$" + String.format("%,.2f", saldo) + "\n\n");
-        String mensagemEliminarDuas = "Pergunta Valendo:  R$"+ String.format("%,.2f", valorQuestao) + "\n\n" + quantPerg + " - " + (eliminarDuas + "\n\n5 - Pular Pergunta (" + pulosRestantes + ")     6 - Dicas (" + dicasRestantes + ")\n\nSaldo Atual:  R$" + String.format("%,.2f", saldo) + "\n\n");
+        String mensagemNormal = "Pergunta Valendo:  R$"+ String.format("%,.2f", valorQuestao) + "\n\n" + quantPerg + " - " + (pergunta + "\n\n1 - Pular Pergunta (" + pulosRestantes + ")     2 - Dicas (" + dicasRestantes + ")     3 - Eliminar Duas (" + eliminarDuasRestantes + ") \n\nSaldo Atual:  R$" + String.format("%,.2f", saldo) + "\n\n");
+
+        String mensagemEliminarDuas = "Pergunta Valendo:  R$"+ String.format("%,.2f", valorQuestao) + "\n\n" + quantPerg + " - " + (eliminarDuas + "\n\n1 - Pular Pergunta (" + pulosRestantes + ")     2 - Dicas (" + dicasRestantes + ")\n\nSaldo Atual:  R$" + String.format("%,.2f", saldo) + "\n\n");
 
         // Exibe a pergunta ao usuário
         if (!eliminarQuestao) {
@@ -87,19 +88,27 @@ public class PI {
         } else {
             respostaUsuario = JOptionPane.showInputDialog(null, mensagemEliminarDuas);
         }
-
+        
         if (respostaUsuario == null) {
             int resp = JOptionPane.showOptionDialog(null, "Deseja voltar para o menu?", "Voltar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcoes_SIM_NAO, opcoes_SIM_NAO[0]);
             if (resp == JOptionPane.YES_OPTION) {
                 menu();
+                return;
             }
             else{
                 jogoDoBilhao(pergunta, resposta, dica, eliminarDuas);
+                return;
             }
         }
 
+        if (!respostaUsuario.matches("[a-d,A-D,1-3]")){
+            JOptionPane.showMessageDialog(null, "Opção Inválida!");
+            jogoDoBilhao(pergunta, resposta, dica, eliminarDuas);
+            return;
+        }
+
         // Se o usuário escolhe a opção de eliminar duas respostas
-        if (respostaUsuario.equals("7")) {
+        if (respostaUsuario.equals("3")) {
             if (eliminarDuasRestantes > 0) {
                 respostaUsuario = JOptionPane.showInputDialog(null, mensagemEliminarDuas);
                 eliminarQuestao = true;
@@ -110,9 +119,27 @@ public class PI {
             }
         }
 
+        if (respostaUsuario == null) {
+            int resp = JOptionPane.showOptionDialog(null, "Deseja voltar para o menu?", "Voltar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcoes_SIM_NAO, opcoes_SIM_NAO[0]);
+            if (resp == JOptionPane.YES_OPTION) {
+                menu();
+                return;
+            }
+            else{
+                jogoDoBilhao(pergunta, resposta, dica, eliminarDuas);
+                return;
+            }
+        }
+
+        if (!respostaUsuario.matches("[a-d,A-D,1-3]")){
+            JOptionPane.showMessageDialog(null, "Opção Inválida!");
+            jogoDoBilhao(pergunta, resposta, dica, eliminarDuas);
+            return;
+        }
+
         // Processa a resposta do usuário
         switch (respostaUsuario) {
-            case "5" -> {
+            case "1" -> {
                 if (pulosRestantes <= 0) {
                     JOptionPane.showMessageDialog(null, "Seus Pulos acabaram!");
                     jogoDoBilhao(pergunta, resposta, dica, eliminarDuas);
@@ -126,8 +153,9 @@ public class PI {
                         jogoDoBilhao(pergunta, resposta, dica, eliminarDuas);
                     }
                 }
+                return;
             }
-            case "6" -> {
+            case "2" -> {
                 if (dicasRestantes > 0) {
                     JOptionPane.showMessageDialog(null, dica);
                     dicasRestantes--;
@@ -136,6 +164,7 @@ public class PI {
                     JOptionPane.showMessageDialog(null, "Suas Dicas acabaram!");
                     jogoDoBilhao(pergunta, resposta, dica, eliminarDuas);
                 }
+                return;
             }
             default -> {
                 if (respostaUsuario.equalsIgnoreCase(resposta)) {
@@ -196,6 +225,8 @@ public class PI {
         pulosRestantes = 3;
         dicasRestantes = 2;
         eliminarDuasRestantes = 2;
+        valorQuestao = 1000;
+        eliminarQuestao = false;
     }
 
     // Método para iniciar o nível fácil do jogo
@@ -217,12 +248,15 @@ public class PI {
         // Cria uma nova lista de perguntas repetidas
         repetidas = new ArrayList<>();
 
-        // Inicia o loop do jogo
+        // Inicia o loop do jogo e reseta as ajudas
+        resetarJogo();
         loopJogo();
+        return;
     }
 
     // Método para exibir o menu principal
     public void menu() {
+        resetarJogo();
         int itemMenu;
         String menu = "##### JOGO DO BILHÃO ##### \n\nEscolha o nível: \n\n1 - Fácil \n2 - Médio \n3 - Difícil \n\n4 - Sair\n\n";
 
