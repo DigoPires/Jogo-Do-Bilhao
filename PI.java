@@ -66,8 +66,10 @@ public class PI {
     double valorQuestao = 1000;
     double saldo = 0;
 
-    // Variavel para verificar quando o usuário utilizou o "Eliminar Duas"
-    boolean eliminarQuestao = false;
+    // Variavel para verificar quando o usuário utilizou a opção "Eliminar Duas"
+    boolean usouEliminarQuestao = false;
+    // Variavel para verificar quando o usuário utilizou a opção "Dica"
+    boolean usouDica = false;
 
     // Opções de resposta SIM e NÃO
     String[] opcoes_SIM_NAO = {"Sim", "Não"};
@@ -80,13 +82,19 @@ public class PI {
         // Mensagens a serem exibidas dependendo se a opção de eliminar duas respostas está ativa
         String mensagemNormal = "Pergunta Valendo:  R$"+ String.format("%,.2f", valorQuestao) + "\n\n" + quantPerg + " - " + (pergunta + "\n\n1 - Pular Pergunta (" + pulosRestantes + ")     2 - Dicas (" + dicasRestantes + ")     3 - Eliminar Duas (" + eliminarDuasRestantes + ") \n\nSaldo Atual:  R$" + String.format("%,.2f", saldo) + "\n\n");
 
+        String mensagemDica = "Pergunta Valendo:  R$"+ String.format("%,.2f", valorQuestao) + "\n\n" + quantPerg + " - " + (pergunta + "\n\n1 - Pular Pergunta (" + pulosRestantes + ")     3 - Eliminar Duas (" + eliminarDuasRestantes + ") \n\nSaldo Atual:  R$" + String.format("%,.2f", saldo) + "\n\n");
+
         String mensagemEliminarDuas = "Pergunta Valendo:  R$"+ String.format("%,.2f", valorQuestao) + "\n\n" + quantPerg + " - " + (eliminarDuas + "\n\n1 - Pular Pergunta (" + pulosRestantes + ")     2 - Dicas (" + dicasRestantes + ")\n\nSaldo Atual:  R$" + String.format("%,.2f", saldo) + "\n\n");
 
         // Exibe a pergunta ao usuário
-        if (!eliminarQuestao) {
-            respostaUsuario = JOptionPane.showInputDialog(null, mensagemNormal);
-        } else {
+        if (usouEliminarQuestao) {
             respostaUsuario = JOptionPane.showInputDialog(null, mensagemEliminarDuas);
+        } 
+        else if (usouDica) {
+            respostaUsuario = JOptionPane.showInputDialog(null, mensagemDica);
+        }
+        else {
+            respostaUsuario = JOptionPane.showInputDialog(null, mensagemNormal);
         }
         
         if (respostaUsuario == null) {
@@ -111,7 +119,7 @@ public class PI {
         if (respostaUsuario.equals("3")) {
             if (eliminarDuasRestantes > 0) {
                 respostaUsuario = JOptionPane.showInputDialog(null, mensagemEliminarDuas);
-                eliminarQuestao = true;
+                usouEliminarQuestao = true;
                 eliminarDuasRestantes--;
             } else {
                 JOptionPane.showMessageDialog(null, "Sua opção de eliminar 2 acabou!");
@@ -147,7 +155,8 @@ public class PI {
                     int resp = JOptionPane.showOptionDialog(null, "Você deseja Pular a pergunta? \n\nPulos Restantes: " + pulosRestantes, "Pular", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcoes_SIM_NAO, opcoes_SIM_NAO[0]);
                     if (resp == JOptionPane.YES_OPTION) {
                         pulosRestantes--;
-                        eliminarQuestao = false;
+                        usouEliminarQuestao = false;
+                        usouDica = false;
                         return;
                     } else {
                         jogoDoBilhao(pergunta, resposta, dica, eliminarDuas);
@@ -159,6 +168,7 @@ public class PI {
                 if (dicasRestantes > 0) {
                     JOptionPane.showMessageDialog(null, dica);
                     dicasRestantes--;
+                    usouDica = true;
                     jogoDoBilhao(pergunta, resposta, dica, eliminarDuas);
                 } else {
                     JOptionPane.showMessageDialog(null, "Suas Dicas acabaram!");
@@ -180,7 +190,8 @@ public class PI {
         }
 
         valorQuestao += 1000;
-        eliminarQuestao = false;
+        usouEliminarQuestao = false;
+        usouDica = false;
     }
 
     // Método que controla o loop do jogo
@@ -226,7 +237,7 @@ public class PI {
         dicasRestantes = 2;
         eliminarDuasRestantes = 2;
         valorQuestao = 1000;
-        eliminarQuestao = false;
+        usouEliminarQuestao = false;
     }
 
     // Método para iniciar o nível fácil do jogo
