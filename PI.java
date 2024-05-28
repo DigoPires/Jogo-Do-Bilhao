@@ -273,7 +273,7 @@ public class PI {
         // Inicia o loop do jogo e reseta as ajudas
         valorQuestao = 1000000;
         resetarJogo();
-        loopJogo(1);
+        loopJogo(5);
         rodada2();
         return;
     }
@@ -298,7 +298,7 @@ public class PI {
         repetidas = new ArrayList<>();
 
         valorQuestao = 10000000;
-        loopJogo(1);
+        loopJogo(5);
         rodada3();
         return;
     }
@@ -323,7 +323,7 @@ public class PI {
         repetidas = new ArrayList<>();
 
         valorQuestao = 100000000;
-        loopJogo(1);
+        loopJogo(5);
         rodadaFinal();
         return;
     }
