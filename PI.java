@@ -58,13 +58,12 @@ public class PI {
     private ArrayList<PerguntasRepetidas> repetidas;
 
     // Variáveis de estado do jogo
-    private int pontos = 0;
-    private int quantPerg = 1;
-    int pulosRestantes = 3;
-    int dicasRestantes = 2;
-    int eliminarDuasRestantes = 2;
-    double valorQuestao = 1000;
-    double saldo = 0;
+    int quantPerg;
+    int pulosRestantes;
+    int dicasRestantes;
+    int eliminarDuasRestantes;
+    double valorQuestao;
+    double saldo;
 
     // Variavel para verificar quando o usuário utilizou a opção "Eliminar Duas"
     boolean usouEliminarQuestao = false;
@@ -92,6 +91,11 @@ public class PI {
         } 
         else if (usouDica) {
             respostaUsuario = JOptionPane.showInputDialog(null, mensagemDica);
+            if (!respostaUsuario.matches("[a-d,A-D,1,3]")){
+                JOptionPane.showMessageDialog(null, "Opção Inválida!");
+                jogoDoBilhao(pergunta, resposta, dica, eliminarDuas);
+                return;
+            }
         }
         else {
             respostaUsuario = JOptionPane.showInputDialog(null, mensagemNormal);
@@ -139,7 +143,7 @@ public class PI {
             }
         }
 
-        if (!respostaUsuario.matches("[a-d,A-D,1-3]")){
+        if (!respostaUsuario.matches("[a-d,A-D,1,2]")){
             JOptionPane.showMessageDialog(null, "Opção Inválida!");
             jogoDoBilhao(pergunta, resposta, dica, eliminarDuas);
             return;
@@ -179,24 +183,23 @@ public class PI {
             default -> {
                 if (respostaUsuario.equalsIgnoreCase(resposta)) {
                     JOptionPane.showMessageDialog(null, "Resposta Correta");
-                    pontos += 1;
                     quantPerg += 1;
                     saldo += valorQuestao;
                 } else {
-                    JOptionPane.showMessageDialog(null, "Resposta Incorreta!");
-                    quantPerg += 1;
+                    JOptionPane.showMessageDialog(null, "Resposta Incorreta!  Você perdeu!");
+                    menu();
+                    return;
                 }
             }
         }
 
-        valorQuestao += 1000;
         usouEliminarQuestao = false;
         usouDica = false;
     }
 
     // Método que controla o loop do jogo
-    public void loopJogo() {
-        while (quantPerg <= 5) {
+    public void loopJogo(int contador) {
+        while (quantPerg <= contador) {
 
             // Sorteia uma pergunta da lista
             PerguntaClass sortearPergunta = perguntas.get((int) (Math.random() * perguntas.size()));
@@ -222,26 +225,23 @@ public class PI {
                 jogoDoBilhao(pergunta, resposta, dica, eliminarDuas);
             }
         }
-
-        // Exibe a quantidade de pontos do usuário e reseta o jogo
-        JOptionPane.showMessageDialog(null, "Quantidade de Pontos: " + pontos + "/5");
-        resetarJogo();
-        menu();
     }
 
     // Método para resetar as variáveis do jogo
     public void resetarJogo() {
         quantPerg = 1;
-        pontos = 0;
-        pulosRestantes = 3;
+        saldo = 0;
+        pulosRestantes = 2;
         dicasRestantes = 2;
-        eliminarDuasRestantes = 2;
-        valorQuestao = 1000;
+        eliminarDuasRestantes = 1;
         usouEliminarQuestao = false;
     }
 
     // Método para iniciar o nível fácil do jogo
-    public void facil() {
+    public void rodada1() {
+
+        JOptionPane.showMessageDialog(null, "Primeira Rodada!");
+
         // Cria uma nova lista de perguntas
         perguntas = new ArrayList<>();
 
@@ -255,13 +255,106 @@ public class PI {
         perguntas.add(new PerguntaClass("Quais destas doenças são sexualmente transmissíveis? \n\na - Aids, tricomoníase e ebola \nb - Chikungunya, aids e herpes genital \nc - Gonorreia, clamídia e sífilis \nd - Botulismo, cistite e gonorreia", "c", "DICA: Inclui gonorreia.", "Quais destas doenças são sexualmente transmissíveis? \n\nb - Chikungunya, aids e herpes genital \nc - Gonorreia, clamídia e sífilis"));
         perguntas.add(new PerguntaClass("Quantas casas decimais tem o número pi? \n\na - Duas \nb - Centenas \nc - Infinitas \nd - Vinte", "c", "DICA: Não tem fim.", "Quantas casas decimais tem o número pi? \n\na - Duas \nc - Infinitas"));
         perguntas.add(new PerguntaClass("Qual o número de jogadores em cada time numa partida de futebol? \n\na - 9 \nb - 11 \nc - 10 \nd - 12", "b", "DICA: É um número ímpar.", "Qual o número de jogadores em cada time numa partida de futebol? \n\nb - 11 \nd - 12"));
+        perguntas.add(new PerguntaClass("Qual é o nome do processo pelo qual as plantas produzem seu próprio alimento usando luz solar? \n\na - Respiração \nb - Fotossíntese \nc - Quimiossíntese \nd - Fermentação", "b", "DICA: Utiliza a luz solar para converter dióxido de carbono e água em glicose.", "Qual é o nome do processo pelo qual as plantas produzem seu próprio alimento usando luz solar? \n\nb - Fotossíntese \nc - Quimiossíntese"));
+        perguntas.add(new PerguntaClass("Qual é a língua oficial do Brasil? \n\na - Espanhol \nb - Português \nc - Inglês \nd - Francês", "b", "DICA: É a mesma língua falada em Portugal.", "Qual é a língua oficial do Brasil? \n\na - Espanhol \nb - Português"));
+        perguntas.add(new PerguntaClass("Qual foi o primeiro país a aprovar o casamento entre pessoas do mesmo sexo? \n\na - Canadá \nb - Espanha \nc - Holanda \nd - Suécia", "c", "DICA: A legalização ocorreu em 2001.", "Qual foi o primeiro país a aprovar o casamento entre pessoas do mesmo sexo? \n\nb - Espanha \nc - Holanda"));
+        perguntas.add(new PerguntaClass("Qual é a moeda oficial do Japão? \n\na - Yuan \nb - Won \nc - Iene \nd - Dólar", "c", "DICA: Seu símbolo é ¥.", "Qual é a moeda oficial do Japão? \n\na - Yuan \nc - Iene"));
+        perguntas.add(new PerguntaClass("Qual cientista formulou a lei da gravitação universal? \n\na - Albert Einstein \nb - Isaac Newton \nc - Galileo Galilei \nd - James Clerk Maxwell", "b", "DICA: Ele também desenvolveu as leis do movimento.", "Qual cientista formulou a lei da gravitação universal? \n\na - Albert Einstein \nb - Isaac Newton"));
+        perguntas.add(new PerguntaClass("Qual é o maior órgão do corpo humano? \n\na - Fígado \nb - Cérebro \nc - Pele \nd - Coração", "c", "DICA: Cobre toda a superfície do corpo.", "Qual é o maior órgão do corpo humano? \n\nb - Cérebro \nc - Pele"));
+        perguntas.add(new PerguntaClass("Qual é o ponto mais alto da Terra? \n\na - K2 \nb - Everest \nc - Kangchenjunga \nd - Lhotse", "b", "DICA: Está localizado na cordilheira do Himalaia.", "Qual é o ponto mais alto da Terra? \n\na - K2 \nb - Everest"));
+        perguntas.add(new PerguntaClass("Qual é o maior país da América do Sul? \n\na - Argentina \nb - Brasil \nc - Peru \nd - Colômbia", "b", "DICA: É o quinto maior país do mundo em área territorial.", "Qual é o maior país da América do Sul? \n\na - Argentina \nb - Brasil"));
+        perguntas.add(new PerguntaClass("Qual é a fórmula química da água? \n\na - CO2 \nb - H2O \nc - O2 \nd - H2SO4", "b", "DICA: Consiste em dois átomos de hidrogênio e um de oxigênio.", "Qual é a fórmula química da água? \n\na - CO2 \nb - H2O"));
+
+
 
         // Cria uma nova lista de perguntas repetidas
         repetidas = new ArrayList<>();
 
         // Inicia o loop do jogo e reseta as ajudas
+        valorQuestao = 1000000;
         resetarJogo();
-        loopJogo();
+        loopJogo(1);
+        rodada2();
+        return;
+    }
+
+    public void rodada2(){
+
+        JOptionPane.showMessageDialog(null, "Segunda Rodada!");
+        quantPerg = 1;
+
+        perguntas = new ArrayList<>();
+
+        perguntas.add(new PerguntaClass("Qual é o maior oceano do mundo? \n\na - Atlântico \nb - Índico \nc - Pacífico \nd - Ártico", "c", "DICA: Fica entre a Ásia e as Américas.", "Qual é o maior oceano do mundo? \n\nb - Índico \nc - Pacífico"));
+        perguntas.add(new PerguntaClass("Qual planeta é conhecido como o Planeta Vermelho? \n\na - Marte \nb - Júpiter \nc - Saturno \nd - Vênus", "a", "DICA: É o quarto planeta do Sistema Solar.", "Qual planeta é conhecido como o Planeta Vermelho? \n\na - Marte \nc - Saturno"));
+        perguntas.add(new PerguntaClass("Quem pintou a Mona Lisa? \n\na - Vincent van Gogh \nb - Pablo Picasso \nc - Leonardo da Vinci \nd - Claude Monet", "c", "DICA: Era também um inventor famoso.", "Quem pintou a Mona Lisa? \n\nb - Pablo Picasso \nc - Leonardo da Vinci"));
+        perguntas.add(new PerguntaClass("Qual é o elemento químico mais abundante no universo? \n\na - Oxigênio \nb - Hidrogênio \nc - Carbono \nd - Hélio", "b", "DICA: É o primeiro elemento da tabela periódica.", "Qual é o elemento químico mais abundante no universo? \n\na - Oxigênio \nb - Hidrogênio"));
+        perguntas.add(new PerguntaClass("Quantos segundos há em uma hora? \n\na - 600 \nb - 3000 \nc - 3600 \nd - 6000", "c", "DICA: É o produto de 60 minutos por 60 segundos.", "Quantos segundos há em uma hora? \n\nc - 3600 \nd - 6000"));
+        perguntas.add(new PerguntaClass("Qual é a capital da Austrália? \n\na - Sydney \nb - Melbourne \nc - Brisbane \nd - Canberra", "d", "DICA: Não é a maior cidade do país.", "Qual é a capital da Austrália? \n\na - Sydney \nd - Canberra"));
+        perguntas.add(new PerguntaClass("Em que ano o homem pisou na Lua pela primeira vez? \n\na - 1965 \nb - 1969 \nc - 1972 \nd - 1975", "b", "DICA: A missão foi a Apollo 11.", "Em que ano o homem pisou na Lua pela primeira vez? \n\na - 1965 \nb - 1969"));
+        perguntas.add(new PerguntaClass("Qual é a maior floresta tropical do mundo? \n\na - Floresta Amazônica \nb - Floresta do Congo \nc - Floresta da Indonésia \nd - Floresta da Nova Guiné", "a", "DICA: Está localizada na América do Sul.", "Qual é a maior floresta tropical do mundo? \n\na - Floresta Amazônica \nb - Floresta do Congo"));
+        perguntas.add(new PerguntaClass("Qual é o país mais populoso do mundo? \n\na - Índia \nb - Estados Unidos \nc - Indonésia \nd - China", "d", "DICA: Está localizado na Ásia.", "Qual é o país mais populoso do mundo? \n\na - Índia \nd - China"));
+
+        repetidas = new ArrayList<>();
+
+        valorQuestao = 10000000;
+        loopJogo(1);
+        rodada3();
+        return;
+    }
+
+    public void rodada3(){
+
+        JOptionPane.showMessageDialog(null, "Terceira Rodada!");
+        quantPerg = 1;
+
+        perguntas = new ArrayList<>();
+
+        perguntas.add(new PerguntaClass("Qual é o segundo maior país do mundo em área territorial? \n\na - Estados Unidos \nb - Canadá \nc - China \nd - Rússia", "b", "DICA: Fica na América do Norte.", "Qual é o segundo maior país do mundo em área territorial? \n\na - Estados Unidos \nb - Canadá"));
+        perguntas.add(new PerguntaClass("Qual elemento químico tem o símbolo 'K'? \n\na - Cálcio \nb - Potássio \nc - Criptônio \nd - Cloro", "b", "DICA: É um metal alcalino.", "Qual elemento químico tem o símbolo 'K'? \n\na - Cálcio \nb - Potássio"));
+        perguntas.add(new PerguntaClass("Qual é a capital da Finlândia? \n\na - Helsinque \nb - Estocolmo \nc - Oslo \nd - Copenhague", "a", "DICA: É a maior cidade da Finlândia.", "Qual é a capital da Finlândia? \n\na - Helsinque \nc - Oslo"));
+        perguntas.add(new PerguntaClass("Qual é o maior deserto do mundo? \n\na - Deserto do Saara \nb - Deserto da Arábia \nc - Deserto de Gobi \nd - Antártica", "d", "DICA: É um deserto polar.", "Qual é o maior deserto do mundo? \n\na - Deserto do Saara \nd - Antártica"));
+        perguntas.add(new PerguntaClass("Quem desenvolveu a teoria da relatividade? \n\na - Isaac Newton \nb - Albert Einstein \nc - Niels Bohr \nd - Galileo Galilei", "b", "DICA: Ele recebeu o Prêmio Nobel de Física em 1921.", "Quem desenvolveu a teoria da relatividade? \n\na - Isaac Newton \nb - Albert Einstein"));
+        perguntas.add(new PerguntaClass("Qual país é conhecido como a Terra do Sol Nascente? \n\na - China \nb - Coreia do Sul \nc - Japão \nd - Tailândia", "c", "DICA: É uma ilha no leste da Ásia.", "Qual país é conhecido como a Terra do Sol Nascente? \n\nb - Coreia do Sul \nc - Japão"));
+        perguntas.add(new PerguntaClass("Qual é o maior planeta do Sistema Solar? \n\na - Terra \nb - Marte \nc - Júpiter \nd - Saturno", "c", "DICA: É conhecido por sua grande mancha vermelha.", "Qual é o maior planeta do Sistema Solar? \n\na - Terra \nc - Júpiter"));
+        perguntas.add(new PerguntaClass("Quem pintou o teto da Capela Sistina? \n\na - Leonardo da Vinci \nb - Michelangelo \nc - Rafael \nd - Donatello", "b", "DICA: Ele também esculpiu a estátua de David.", "Quem pintou o teto da Capela Sistina? \n\na - Leonardo da Vinci \nb - Michelangelo"));
+        perguntas.add(new PerguntaClass("Qual é o rio mais longo do mundo? \n\na - Amazonas \nb - Nilo \nc - Yangtzé \nd - Mississipi", "b", "DICA: Está localizado na África.", "Qual é o rio mais longo do mundo? \n\na - Amazonas \nb - Nilo"));
+
+        repetidas = new ArrayList<>();
+
+        valorQuestao = 100000000;
+        loopJogo(1);
+        rodadaFinal();
+        return;
+    }
+
+    public void rodadaFinal(){
+
+        JOptionPane.showMessageDialog(null, "Última Rodada!");
+        quantPerg = 1;
+
+        perguntas = new ArrayList<>();
+
+        perguntas.add(new PerguntaClass("Qual é a capital da Mongólia? \n\na - Ulaanbaatar \nb - Bishkek \nc - Astana \nd - Tashkent", "a", "DICA: Seu nome significa 'Herói Vermelho'.", "Qual é a capital da Mongólia? \n\na - Ulaanbaatar \nc - Astana"));
+        perguntas.add(new PerguntaClass("Quem escreveu 'Guerra e Paz'? \n\na - Fyodor Dostoevsky \nb - Leo Tolstoy \nc - Anton Chekhov \nd - Vladimir Nabokov", "b", "DICA: É um dos maiores autores russos.", "Quem escreveu 'Guerra e Paz'? \n\na - Fyodor Dostoevsky \nb - Leo Tolstoy"));
+        perguntas.add(new PerguntaClass("Qual é a unidade de medida da radiação ionizante? \n\na - Coulomb \nb - Sievert \nc - Pascal \nd - Ohm", "b", "DICA: É usada para medir a dose absorvida por tecidos humanos.", "Qual é a unidade de medida da radiação ionizante? \n\na - Coulomb \nb - Sievert"));
+        perguntas.add(new PerguntaClass("Qual é a galáxia mais próxima da Via Láctea? \n\na - Andrômeda \nb - Triângulo \nc - LMC (Grande Nuvem de Magalhães) \nd - SMC (Pequena Nuvem de Magalhães)", "c", "DICA: Está a cerca de 160 mil anos-luz de distância.", "Qual é a galáxia mais próxima da Via Láctea? \n\na - Andrômeda \nc - LMC (Grande Nuvem de Magalhães)"));
+        perguntas.add(new PerguntaClass("Em que ano aconteceu a Revolução Francesa? \n\na - 1776 \nb - 1789 \nc - 1812 \nd - 1848", "b", "DICA: É conhecida como o início da era moderna.", "Em que ano aconteceu a Revolução Francesa? \n\na - 1776 \nb - 1789"));
+        perguntas.add(new PerguntaClass("Qual elemento químico tem o símbolo 'W'? \n\na - Tungstênio \nb - Tungstato \nc - Tântalo \nd - Titânio", "a", "DICA: É um metal de alta densidade usado em filamentos de lâmpadas.", "Qual elemento químico tem o símbolo 'W'? \n\na - Tungstênio \nd - Titânio"));
+        perguntas.add(new PerguntaClass("Quem foi o primeiro cientista a propor que a Terra orbita o Sol? \n\na - Johannes Kepler \nb - Galileo Galilei \nc - Nicolau Copérnico \nd - Tycho Brahe", "c", "DICA: Seu modelo é conhecido como heliocentrismo.", "Quem foi o primeiro cientista a propor que a Terra orbita o Sol? \n\nb - Galileo Galilei \nc - Nicolau Copérnico"));
+        perguntas.add(new PerguntaClass("Qual é a distância da Terra ao Sol? \n\na - 93 mil milhas \nb - 93 milhões de milhas \nc - 93 mil quilômetros \nd - 93 milhões de quilômetros", "b", "DICA: A distância é aproximadamente 150 milhões de quilômetros.", "Qual é a distância da Terra ao Sol? \n\nb - 93 milhões de milhas \nd - 93 milhões de quilômetros"));
+        perguntas.add(new PerguntaClass("Em qual país a língua Basca é falada? \n\na - Espanha \nb - Itália \nc - França \nd - Suíça", "a", "DICA: É uma região conhecida como País Basco.", "Em qual país a língua Basca é falada? \n\na - Espanha \nc - França"));
+        
+        repetidas = new ArrayList<>();
+
+        valorQuestao = 1000000000;
+        loopJogo(1);
+        JOptionPane.showMessageDialog(null, "Parabéns, Você ganhou R$1.000.000.000,00!!!");
+        return;
+    }
+
+    public void regras(){
+        JOptionPane.showMessageDialog(null, "Regras");
         return;
     }
 
@@ -269,18 +362,17 @@ public class PI {
     public void menu() {
         resetarJogo();
         int itemMenu;
-        String menu = "##### JOGO DO BILHÃO ##### \n\nEscolha o nível: \n\n1 - Fácil \n2 - Médio \n3 - Difícil \n\n4 - Sair\n\n";
+        String menu = "##### JOGO DO BILHÃO ##### \n\nEscolha uma opção: \n\n1 - Regras \n2 - Jogar \n\n3 - Sair \n\n";
 
         while (true) {
             try {
                 itemMenu = Integer.parseInt(JOptionPane.showInputDialog(null, menu));
                 switch (itemMenu) {
-                    case 1 -> facil();  // Inicia o nível fácil
-                    case 2 -> JOptionPane.showMessageDialog(null, "Em processo...");  // Placeholder para nível médio
-                    case 3 -> JOptionPane.showMessageDialog(null, "Em processo...");  // Placeholder para nível difícil
-                    case 4 -> {
+                    case 1 -> regras();
+                    case 2 -> rodada1();  // Inicia o nível fácil
+                    case 3 -> {
                         JOptionPane.showMessageDialog(null, "Saindo...");
-                        System.exit(0);  // Sai do jogo
+                        System.exit(0);  // Sair do jogo
                     }
                     default -> JOptionPane.showMessageDialog(null, "Opção Inválida!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
