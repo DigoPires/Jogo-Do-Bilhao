@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
-public class PI {
+public class JogoDoBilhao {
 
     // Classe interna para representar uma pergunta
     static class PerguntaClass {
@@ -80,7 +80,7 @@ public class PI {
     String[] opcoes_SIM_NAO = {"Sim", "Não"};
 
     // Método principal do jogo
-    public void jogoDoBilhao(String pergunta, String resposta, String dica, String eliminarDuas, String alternativaExtra) {
+    public void jogo(String pergunta, String resposta, String dica, String eliminarDuas, String alternativaExtra) {
 
         String respostaUsuario;
         
@@ -98,24 +98,27 @@ public class PI {
             respostaUsuario = JOptionPane.showInputDialog(null, mensagemDica_EliminarDuas);
             if (respostaUsuario != null && !respostaUsuario.matches("[" + resposta + "," + alternativaExtra + ",1]")) {
                 JOptionPane.showMessageDialog(null, "Opção Inválida!");
-                jogoDoBilhao(pergunta, resposta, dica, eliminarDuas, alternativaExtra);
+                jogo(pergunta, resposta, dica, eliminarDuas, alternativaExtra);
                 return;
             }
-        } else if (usouDica) {
+        } 
+        else if (usouDica) {
             respostaUsuario = JOptionPane.showInputDialog(null, mensagemDica);
             if (respostaUsuario != null && !respostaUsuario.matches("[a-dA-D13]")) {
                 JOptionPane.showMessageDialog(null, "Opção Inválida!");
-                jogoDoBilhao(pergunta, resposta, dica, eliminarDuas, alternativaExtra);
+                jogo(pergunta, resposta, dica, eliminarDuas, alternativaExtra);
                 return;
             }
-        } else if (usouEliminarQuestao) {
+        } 
+        else if (usouEliminarQuestao) {
             respostaUsuario = JOptionPane.showInputDialog(null, mensagemEliminarDuas);
             if (respostaUsuario != null && !respostaUsuario.matches("[" + resposta + "," + alternativaExtra + ",1-2]")) {
                 JOptionPane.showMessageDialog(null, "Opção Inválida!");
-                jogoDoBilhao(pergunta, resposta, dica, eliminarDuas, alternativaExtra);
+                jogo(pergunta, resposta, dica, eliminarDuas, alternativaExtra);
                 return;
             }
-        } else {
+        } 
+        else {
             respostaUsuario = JOptionPane.showInputDialog(null, mensagemNormal);
         }
         
@@ -126,7 +129,7 @@ public class PI {
                 menu();
                 return;
             } else {
-                jogoDoBilhao(pergunta, resposta, dica, eliminarDuas, alternativaExtra);
+                jogo(pergunta, resposta, dica, eliminarDuas, alternativaExtra);
                 return;
             }
         }
@@ -136,7 +139,7 @@ public class PI {
             case "1" -> {
                 if (pulosRestantes <= 0) {
                     JOptionPane.showMessageDialog(null, "Seus Pulos acabaram!");
-                    jogoDoBilhao(pergunta, resposta, dica, eliminarDuas, alternativaExtra);
+                    jogo(pergunta, resposta, dica, eliminarDuas, alternativaExtra);
                 } else {
                     int resp = JOptionPane.showOptionDialog(null, "Você deseja Pular a pergunta? \n\nPulos Restantes: " + pulosRestantes, "Pular", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcoes_SIM_NAO, opcoes_SIM_NAO[0]);
                     if (resp == JOptionPane.YES_OPTION) {
@@ -145,7 +148,7 @@ public class PI {
                         usouDica = false;
                         return;
                     } else {
-                        jogoDoBilhao(pergunta, resposta, dica, eliminarDuas, alternativaExtra);
+                        jogo(pergunta, resposta, dica, eliminarDuas, alternativaExtra);
                     }
                 }
                 return;
@@ -155,10 +158,10 @@ public class PI {
                     JOptionPane.showMessageDialog(null, dica);
                     dicasRestantes--;
                     usouDica = true;
-                    jogoDoBilhao(pergunta, resposta, dica, eliminarDuas, alternativaExtra);
+                    jogo(pergunta, resposta, dica, eliminarDuas, alternativaExtra);
                 } else {
                     JOptionPane.showMessageDialog(null, "Suas Dicas acabaram!");
-                    jogoDoBilhao(pergunta, resposta, dica, eliminarDuas, alternativaExtra);
+                    jogo(pergunta, resposta, dica, eliminarDuas, alternativaExtra);
                 }
                 return;
             }
@@ -166,10 +169,10 @@ public class PI {
                 if (eliminarDuasRestantes > 0) {
                     usouEliminarQuestao = true;
                     eliminarDuasRestantes--;
-                    jogoDoBilhao(pergunta, resposta, dica, eliminarDuas, alternativaExtra);
+                    jogo(pergunta, resposta, dica, eliminarDuas, alternativaExtra);
                 } else {
                     JOptionPane.showMessageDialog(null, "Sua opção de eliminar 2 acabou!");
-                    jogoDoBilhao(pergunta, resposta, dica, eliminarDuas, alternativaExtra);
+                    jogo(pergunta, resposta, dica, eliminarDuas, alternativaExtra);
                 }
                 return;
             }
@@ -217,7 +220,7 @@ public class PI {
             // Se a pergunta não foi repetida, apresenta-a ao usuário
             if (!perguntaRepetida) {
                 repetidas.add(new PerguntasRepetidas(pergunta));
-                jogoDoBilhao(pergunta, resposta, dica, eliminarDuas, alternativaExtra);
+                jogo(pergunta, resposta, dica, eliminarDuas, alternativaExtra);
             }
         }
     }
@@ -277,9 +280,6 @@ public class PI {
         perguntas.add(new PerguntaClass("Qual é o maior país da América do Sul? \n\na - Argentina \nb - Brasil \nc - Peru \nd - Colômbia", "b", "DICA: É o quinto maior país do mundo em área territorial.", "Qual é o maior país da América do Sul? \n\na - Argentina \nb - Brasil", "a"));
         
         perguntas.add(new PerguntaClass("Qual é a fórmula química da água? \n\na - CO2 \nb - H2O \nc - O2 \nd - H2SO4", "b", "DICA: Consiste em dois átomos de hidrogênio e um de oxigênio.", "Qual é a fórmula química da água? \n\na - CO2 \nb - H2O", "a"));
-        
-
-
 
         // Cria uma nova lista de perguntas repetidas
         repetidas = new ArrayList<>();
@@ -383,11 +383,12 @@ public class PI {
         repetidas = new ArrayList<>();
 
         valorQuestao = 1000000000;
-        loopJogo(1);
+        loopJogo(16);
         JOptionPane.showMessageDialog(null, "Parabéns, Você ganhou R$1.000.000.000,00!!! \n\nSaldo Atual: R$ R$1.000.000.000,00");
         return;
     }
 
+    // Método para ler as Regras do jogo
     public void regras(){
         JOptionPane.showMessageDialog(null, "Regras");
         return;
@@ -404,7 +405,7 @@ public class PI {
                 itemMenu = Integer.parseInt(JOptionPane.showInputDialog(null, menu));
                 switch (itemMenu) {
                     case 1 -> regras();
-                    case 2 -> rodadaFinal();  // Inicia o nível fácil
+                    case 2 -> rodada1();  // Inicia o nível fácil
                     case 3 -> {
                         JOptionPane.showMessageDialog(null, "Saindo...");
                         System.exit(0);  // Sair do jogo
@@ -422,7 +423,7 @@ public class PI {
 
     // Método main para iniciar o programa
     public static void main(String[] args) {
-        PI Quiz = new PI();
+        JogoDoBilhao Quiz = new JogoDoBilhao();
         Quiz.menu();
     }
 }
