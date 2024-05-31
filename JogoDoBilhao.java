@@ -312,7 +312,7 @@ public class JogoDoBilhao {
         
         perguntas.add(new PerguntaClass("Em que ano o homem pisou na Lua pela primeira vez? \n\na - 1965 \nb - 1969 \nc - 1972 \nd - 1975", "b", "DICA: A missão foi a Apollo 11.", "Em que ano o homem pisou na Lua pela primeira vez? \n\na - 1965 \nb - 1969", "a"));
         
-        perguntas.add(new PerguntaClass("Qual é a maior floresta tropical do mundo? \n\na - Floresta Amazônica \nb - Floresta do Congo \nc - Floresta da Indonésia \nd - Floresta da Nova Guiné", "a", "DICA: Está localizada na América do Sul.", "Qual é a maior floresta tropical do mundo? \n\na - Floresta Amazônica \nb - Floresta do Congo", "b"));   
+        perguntas.add(new PerguntaClass("Qual é a maior floresta tropical do mundo? \n\na - Floresta Amazônica \nb - Floresta do Congo \nc - Floresta da Indonésia \nd - Floresta da Nova Guiné", "a", "DICA: Está localizada na América do Sul.", "Qual é a maior floresta tropical do mundo? \n\na - Floresta Amazônica \nb - Floresta do Congo", "b")); 
 
         repetidas = new ArrayList<>();
 
