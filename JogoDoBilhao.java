@@ -1,3 +1,5 @@
+// Developed by Heverton Oliveira, Matheus Assunção, Pedro Gabriel, Rodrigo Pires e Ryan Cavalcanti.
+
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
