@@ -3,7 +3,7 @@ O objetivo do jogo é acertar todas as questões e ganhar o prêmio final, se er
 
 Integrantes do grupo:
 Rodrigo Pires,
-Pedro Gabriel,
+Pedro Gabriel da Silva,
 Heverton Oliveira,
 Ryan Cavalcanti,
 Matheus Assunção.
