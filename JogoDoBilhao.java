@@ -106,7 +106,7 @@ public class JogoDoBilhao {
         }
         else if (usouDica) {
             respostaUsuario = JOptionPane.showInputDialog(null, mensagemDica);
-            if (respostaUsuario != null && !respostaUsuario.matches("[a-dA-D,1-3]")) {
+            if (respostaUsuario != null && !respostaUsuario.matches("[a-dA-D,1,3]")) {
                 JOptionPane.showMessageDialog(null, "Opção Inválida!");
                 jogo(pergunta, resposta, dica, eliminarDuas, alternativaExtra);
                 return;
